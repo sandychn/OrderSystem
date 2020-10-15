@@ -6,34 +6,45 @@ import java.util.Date;
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
-    private Date time;  //点单时间
-    private String user_id;   //顾客ID
+    private String orderID;  //订单ID
+    private Long startTime;  //点单时间戳
+    private Long finishTime; //完成时间戳
     private int number;   //桌号
-    private String menu_id; //菜品ID
+    private int status;  //订单状态
 
-    public String getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderID=" + orderID +
+                ",startTime=" + startTime + "/" +
+                ",finishTime=" + finishTime + "/" +
+                ",number=" + number + "/" +
+                ",status=" + status +
+                "}";
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getOrderID() {
+        return orderID;
     }
 
-    public Date getTime() {
-        return time;
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public Long getStartTime() {
+        return startTime;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public Long getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Long finishTime) {
+        this.finishTime = finishTime;
     }
 
     public int getNumber() {
@@ -44,11 +55,11 @@ public class Order implements Serializable {
         this.number = number;
     }
 
-    public String getMenu_id() {
-        return menu_id;
+    public int getStatus() {
+        return status;
     }
 
-    public void setMenu_id(String menu_id) {
-        this.menu_id = menu_id;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

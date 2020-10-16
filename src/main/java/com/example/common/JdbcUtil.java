@@ -3,23 +3,23 @@ package com.example.common;
 import java.sql.*;
 
 public class JdbcUtil {
-    private static Connection connection = null;
+    private static Connection connection;
 
-
-    public static Connection getConnection() throws SystemException{
-        try{
-            Class.forName("com.mysql.jdbc.Driver");//加载数据库驱动
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");//加载数据库驱动
             String url = "jdbc:mysql://localhost/ordering?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8";
             String user = "root";
             String password = "281215";
-            if(connection == null){
-                    connection = DriverManager.getConnection(url, user, password);
-            }
-        } catch (Exception e){
-            throw new SystemException(e.getMessage());
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            connection = null;
         }
-        return connection;
+    }
 
+    public static Connection getConnection() {
+        return connection;
     }
 
     public static void close(ResultSet rs, Statement st) throws SystemException{

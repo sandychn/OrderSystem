@@ -7,8 +7,8 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String orderID;  //订单ID
-    private Long startTime;  //点单时间戳
-    private Long finishTime; //完成时间戳
+    private long startTime;  //点单时间戳
+    private long finishTime; //完成时间戳
     private int number;   //桌号
     private int status;  //订单状态
 
@@ -31,19 +31,19 @@ public class Order implements Serializable {
         this.orderID = orderID;
     }
 
-    public Long getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Long startTime) {
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 
-    public Long getFinishTime() {
+    public long getFinishTime() {
         return finishTime;
     }
 
-    public void setFinishTime(Long finishTime) {
+    public void setFinishTime(long finishTime) {
         this.finishTime = finishTime;
     }
 

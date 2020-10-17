@@ -3,7 +3,6 @@
   User: Sandy
   Date: 2020/10/16
   Time: 11:00
-  To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -22,13 +21,15 @@
                 <div class="form-group row">
                     <label for="phone_number" class="col-sm-2 col-form-label text-center">手机号</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="请输入手机号">
+                        <input type="text" class="form-control" id="phone_number" name="phone_number"
+                               placeholder="请输入手机号" maxlength="11" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="user_password" class="col-sm-2 col-form-label text-center">密码</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="user_password" name="user_password" placeholder="请输入密码">
+                        <input type="password" class="form-control" id="user_password" name="user_password"
+                               placeholder="请输入密码" maxlength="16" required>
                     </div>
                 </div>
                 <div class="text-center">

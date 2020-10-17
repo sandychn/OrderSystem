@@ -3,7 +3,6 @@
   User: Sandy
   Date: 2020/10/15
   Time: 20:29
-  To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -20,27 +19,31 @@
         <div class="card-body">
             <form action="UserRegister" method="post" onsubmit="return validate()">
                 <div class="form-group row">
-                    <label for="phone_number" class="col-sm-2 col-form-label text-center">手机号</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="请输入手机号" required>
+                    <label for="phone_number" class="col-sm-3 col-form-label text-center">手机号</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="phone_number" name="phone_number"
+                               placeholder="请输入手机号" maxlength="11" required>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="username" class="col-sm-2 col-form-label text-center">姓名</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="username" name="username" placeholder="请输入姓名" required>
+                    <label for="username" class="col-sm-3 col-form-label text-center">姓名</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="username" name="username"
+                               placeholder="请输入姓名" maxlength="20" required>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="user_password" class="col-sm-2 col-form-label text-center">密码</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="user_password" name="user_password" placeholder="请输入密码" required>
+                    <label for="user_password" class="col-sm-3 col-form-label text-center">密码</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" id="user_password" name="user_password"
+                               placeholder="请输入密码" maxlength="20" required>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="user_password_confirm" class="col-sm-2 col-form-label text-center">确认密码</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="user_password_confirm" name="user_password_confirm" placeholder="请输入确认密码" required>
+                    <label for="user_password_confirm" class="col-sm-3 col-form-label text-center">确认密码</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" id="user_password_confirm" name="user_password_confirm"
+                               placeholder="请输入确认密码" maxlength="20" required>
                     </div>
                 </div>
                 <div class="text-center">
@@ -71,12 +74,16 @@
 
         let message_text_div = $("#message_text")[0];
 
+        console.log(password_length);
+
         if (!is_phone_number_valid) {
             message_text_div.innerText = "输入的手机号不合法";
         } else if (!password_same) {
             message_text_div.innerText = "两次输入的密码不一致";
         } else if (password_length < 6) {
             message_text_div.innerText = "密码长度需至少6位";
+        } else if (password_length > 20) {
+            message_text_div.innerText = "密码长度至多20位";
         }
 
         message_text_div.style = "";

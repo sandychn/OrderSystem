@@ -3,7 +3,6 @@
   User: Sandy
   Date: 2020/10/17
   Time: 8:51
-  To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -26,7 +25,7 @@
                 <a class="nav-link" href="#">购物车</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">个人中心</a>
+                <a class="nav-link" href="my.jsp">个人中心</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-md-auto">

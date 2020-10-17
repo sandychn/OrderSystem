@@ -12,7 +12,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl<Static> implements UserDao {
 
     @Override
     public User getUser(String phoneNumber) throws SystemException {
@@ -114,7 +114,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
     @Override
-    public boolean isTurePassword(String phoneNumber,String password) throws SystemException{
+    public boolean isTruePassword(String phoneNumber,String password) throws SystemException{
         try{
             Connection connection = JdbcUtil.getConnection();
             String sql = "select u_password from t_user where u_phone_number = ?";
@@ -137,25 +137,8 @@ public class UserDaoImpl implements UserDao {
         }
         return true;
     }
-
-    private static String getUserId() throws SystemException{  //获取用户ID
-        try{
-            Connection connection = JdbcUtil.getConnection();
-            String sql =  "select getUserId(?);";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1,"seq_user_id");
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                return rs.getString(1);
-            }
-            JdbcUtil.close(rs,ps);
-        }catch (SQLException e){
-            throw new SystemException(e.getMessage());
-        }
-        return null;
-    }
-
-    private static boolean isExist(String userId) throws SystemException{
+    @Override
+    public boolean isExist(String userId) throws SystemException{
         try {
             Connection connection = JdbcUtil.getConnection();
             String sql = "select * from t_user where u_id= ?";
@@ -175,6 +158,24 @@ public class UserDaoImpl implements UserDao {
         }
 
     }
+
+    private String getUserId() throws SystemException{  //获取用户ID
+        try{
+            Connection connection = JdbcUtil.getConnection();
+            String sql =  "select getUserId(?);";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1,"seq_user_id");
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+            JdbcUtil.close(rs,ps);
+        }catch (SQLException e){
+            throw new SystemException(e.getMessage());
+        }
+        return null;
+    }
+
 
     private static String EncoderByMd5(String str) throws SystemException{  //密码加密
         try{

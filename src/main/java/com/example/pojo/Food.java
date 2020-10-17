@@ -10,6 +10,7 @@ public class Food implements Serializable {
     private String imageUrl;   //菜品图片路径
     private String description; //菜品详情
     private double price;  //菜品价格
+    private int    kind;   //菜品种类
 
     @Override
     public String toString() {
@@ -18,7 +19,8 @@ public class Food implements Serializable {
                 ",foodName=" + foodName + "/" +
                 ",imageUrl=" + imageUrl + "/" +
                 ",description=" + description + "/" +
-                ",price=" + price +
+                ",price=" + price + "/" +
+                ",kind=" + kind +
                 "}";
     }
 
@@ -60,5 +62,13 @@ public class Food implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getKind() {
+        return kind;
+    }
+
+    public void setKind(int kind) {
+        this.kind = kind;
     }
 }

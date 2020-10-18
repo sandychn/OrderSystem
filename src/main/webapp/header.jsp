@@ -21,10 +21,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link <%=inMenuPage ? "active" : ""%>" href="menu.jsp">点餐</a>
+                <a class="nav-link <%=inMenuPage ? "active" : ""%>" href="Menu">点餐</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <%=inCartPage ? "active" : ""%>" href="cart.jsp">购物车</a>
+                <a class="nav-link <%=inCartPage ? "active" : ""%>" href="Cart">购物车</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-md-auto">

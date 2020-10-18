@@ -23,9 +23,9 @@ public class UserRegister extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String phoneNumber = req.getParameter("phone_number");
-        String username = req.getParameter("username");
-        String password = req.getParameter("user_password");
+        String phoneNumber = req.getParameter("register_phone_number");
+        String username = req.getParameter("register_username");
+        String password = req.getParameter("register_user_password");
 
         UserDao dao = new UserDaoImpl();
         User user = new User();

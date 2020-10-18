@@ -22,8 +22,8 @@ public class UserLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String phoneNumber = req.getParameter("phone_number");
-        String password = req.getParameter("user_password");
+        String phoneNumber = req.getParameter("login_phone_number");
+        String password = req.getParameter("login_user_password");
 
         UserDao dao = new UserDaoImpl();
 
@@ -37,6 +37,7 @@ public class UserLogin extends HttpServlet {
                 boolean isPasswordCorrect = dao.isTurePassword(phoneNumber, password);
                 if (isPasswordCorrect) {
                     resultMessage = phoneNumber + " 用户登录成功";
+                    req.getSession().setAttribute("login_user_phone_number", phoneNumber);
                 } else {
                     resultMessage = "密码不正确或用户名不正确，请重试";
                 }

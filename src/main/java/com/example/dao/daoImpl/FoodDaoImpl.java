@@ -7,6 +7,8 @@ import com.example.dao.FoodDao;
 import com.example.pojo.Food;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FoodDaoImpl implements FoodDao {
     @Override
@@ -26,6 +28,7 @@ public class FoodDaoImpl implements FoodDao {
                 food.setImageUrl(rs.getString("f_image_url"));
                 food.setDescription(rs.getString("f_description"));
                 food.setPrice(rs.getDouble("f_price"));
+                food.setKind(rs.getInt("k_id"));
             }
             JdbcUtil.close(rs,ps);
         } catch (SQLException e){
@@ -108,7 +111,8 @@ public class FoodDaoImpl implements FoodDao {
         }
     }
 
-    private static boolean isExist(String foodID) throws SystemException {
+    @Override
+    public boolean isExist(String foodID) throws SystemException {
         try{
             Connection connection = JdbcUtil.getConnection();
             String sql = "select * from t_food where f_id = ?";
@@ -123,6 +127,30 @@ public class FoodDaoImpl implements FoodDao {
                 JdbcUtil.close(rs,ps);
                 return false;
             }
+        }catch (SQLException e){
+            throw new SystemException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Food> getAllFood() throws SystemException {
+        try{
+            Connection connection = JdbcUtil.getConnection();
+            String sql = "select f_id,f_name,f_image_url,f_description,f_price,k_id from t_food";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            List<Food> list = new ArrayList<>();
+            while(rs.next()){
+                Food food = new Food();
+                food.setFoodID(rs.getString("f_id"));
+                food.setFoodName(rs.getString("f_name"));
+                food.setImageUrl(rs.getString("f_image_url"));
+                food.setDescription(rs.getString("f_description"));
+                food.setPrice(rs.getDouble("f_price"));
+                food.setKind(rs.getInt("k_id"));
+                list.add(food);
+            }
+            return list;
         }catch (SQLException e){
             throw new SystemException(e.getMessage());
         }

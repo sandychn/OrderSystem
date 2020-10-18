@@ -1,0 +1,32 @@
+#menu a{
+    color: gray;
+}
+#menu a:hover{
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.item-description{
+    text-align: center;
+}
+.image-thumbnail {
+    width: 100%;
+}
+.food-row {
+    margin-bottom: 20px;
+}
+.item-count {
+    margin-top: 5px;
+    text-align: center;
+}
+.food-count {
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+}
+.fas {
+    cursor: pointer;
+    color: gray;
+}
+.fas:hover {
+    color: blue
+}

@@ -29,4 +29,11 @@ public enum Status {
     ORDER_UPDATE_FAIL,    //订单修改失败
     ORDER_DELETE_SUCCESS, //订单删除成功
     ORDER_DELETE_FAIL,    //订单删除失败
+
+    ORDERDETAIL_ADD_SUCCESS,    //订单菜品添加成功
+    ORDERDETAIL_ADD_FAIL,       //订单菜品添加失败
+    ORDERDETAIL_UPDATE_SUCCESS, //订单菜品修改成功
+    ORDERDETAIL_UPDATE_FAIL,    //订单菜品修改失败
+    ORDERDETAIL_DELETE_SUCCESS, //订单菜品删除成功
+    ORDERDETAIL_DELETE_FAIL,    //订单菜品删除失败
 }

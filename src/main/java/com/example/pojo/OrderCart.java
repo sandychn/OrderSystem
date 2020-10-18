@@ -8,4 +8,28 @@ public class OrderCart implements Serializable {
     private String userID;  //用户ID
     private String foodID;   //餐品ID
     private int foodCount;  //餐品数量
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getFoodID() {
+        return foodID;
+    }
+
+    public void setFoodID(String foodID) {
+        this.foodID = foodID;
+    }
+
+    public int getFoodCount() {
+        return foodCount;
+    }
+
+    public void setFoodCount(int foodCount) {
+        this.foodCount = foodCount;
+    }
 }

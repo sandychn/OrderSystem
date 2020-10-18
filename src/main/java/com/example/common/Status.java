@@ -30,10 +30,30 @@ public enum Status {
     ORDER_DELETE_SUCCESS, //订单删除成功
     ORDER_DELETE_FAIL,    //订单删除失败
 
+    ORDERDETAIL_EXISTS,         //订单详情已存在
+    ORDERDETAIL_NOT_EXISTS,     //订单详情不存在
     ORDERDETAIL_ADD_SUCCESS,    //订单菜品添加成功
     ORDERDETAIL_ADD_FAIL,       //订单菜品添加失败
     ORDERDETAIL_UPDATE_SUCCESS, //订单菜品修改成功
     ORDERDETAIL_UPDATE_FAIL,    //订单菜品修改失败
     ORDERDETAIL_DELETE_SUCCESS, //订单菜品删除成功
     ORDERDETAIL_DELETE_FAIL,    //订单菜品删除失败
+
+    ORDERCART_EXISTS,         //购物车中已存在该菜品
+    ORDERCART_NOT_EXISTS,     //购物车中不存在该菜品
+    ORDERCART_ADD_SUCCESS,    //菜品添加购物车成功
+    ORDERCART_ADD_FAIL,       //菜品添加购物车失败
+    ORDERCART_DELETE_SUCCESS, //菜品从购物车中删除成功
+    ORDERCART_DELETE_FAIL,    //菜品从购物车中删除失败
+    ORDERCART_UPDATE_SUCCESS, //购物车菜品修改成功
+    ORDERCART_UPDATE_FAIL,    //购物车菜品修改失败
+
+    KIND_EXISTS,         //种类已存在
+    KIND_NOT_EXISTS,     //种类不存在
+    KIND_ADD_SUCCESS,    //种类添加成功
+    KIND_ADD_FAIL,       //种类添加失败
+    KIND_UPDATE_SUCCESS, //种类修改成功
+    KIND_UPDATE_FAIL,    //种类修改失败
+    KIND_DELETE_SUCCESS, //种类删除成功
+    KIND_DELETE_FAIL,    //种类删除失败
 }

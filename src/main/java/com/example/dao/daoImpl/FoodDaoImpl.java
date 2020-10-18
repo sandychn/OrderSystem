@@ -52,7 +52,7 @@ public class FoodDaoImpl implements FoodDao {
             }
 
             sql = "insert into t_food(f_id,f_name,f_image_url,f_descripition,f_price) " +
-                    "values('"+ food.getFoodID() +"','"+ food.getFoodName() +"','"+ food.getImageUrl() +"','" +
+                    "values('"+ getFoodID() +"','"+ food.getFoodName() +"','"+ food.getImageUrl() +"','" +
                      food.getDescription() +"',"+ food.getPrice() +")";
             Statement statement = connection.createStatement();
             int resultNum = statement.executeUpdate(sql);
@@ -150,9 +150,27 @@ public class FoodDaoImpl implements FoodDao {
                 food.setKind(rs.getInt("k_id"));
                 list.add(food);
             }
+            JdbcUtil.close(rs,statement);
             return list;
         }catch (SQLException e){
             throw new SystemException(e.getMessage());
         }
+    }
+
+    private String getFoodID() throws SystemException{
+        try{
+            Connection connection = JdbcUtil.getConnection();
+            String sql =  "select getFoodId(?);";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1,"seq_food_id");
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+            JdbcUtil.close(rs,ps);
+        }catch (SQLException e){
+            throw new SystemException(e.getMessage());
+        }
+        return null;
     }
 }

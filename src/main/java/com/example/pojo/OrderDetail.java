@@ -7,7 +7,7 @@ public class OrderDetail implements Serializable {
 
     private String orderID;  //订单ID
     private String foodID;   //菜品ID
-    private int foodCount;   //餐品个数
+    private int foodCount = 0;   //餐品个数
 
     @Override
     public String toString() {

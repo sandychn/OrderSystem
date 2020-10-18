@@ -9,15 +9,13 @@
 <html>
 <head>
     <title>首页</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <c:import url="common_css.jsp"/>
 </head>
 <body>
 <c:import url="header.jsp"/>
 <div class="container">
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="js/bootstrap.min.js"></script>
+<c:import url="common_js.jsp"/>
 </body>
 </html>

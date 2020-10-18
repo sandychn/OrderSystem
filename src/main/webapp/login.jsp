@@ -1,46 +1,73 @@
 <%--
   Created by IntelliJ IDEA.
-  User: Sandy
+  User: 11370
   Date: 2020/10/16
-  Time: 11:00
+  Time: 9:30
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>登录</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <c:import url="common_css.jsp"/>
+    <link rel="stylesheet" type="text/css" href="css/login.css"/>
 </head>
 <body>
 <c:import url="header.jsp"/>
-<div class="container">
-    <div class="card">
-        <div class="card-header">登录</div>
-        <div class="card-body">
-            <form action="UserLogin" method="post">
-                <div class="form-group row">
-                    <label for="phone_number" class="col-sm-2 col-form-label text-center">手机号</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="phone_number" name="phone_number"
-                               placeholder="请输入手机号" maxlength="11" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user_password" class="col-sm-2 col-form-label text-center">密码</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="user_password" name="user_password"
-                               placeholder="请输入密码" maxlength="16" required>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">登录</button>
-                </div>
+<div class="cont">
+    <div class="form sign-in">
+        <div class="vcenter">
+            <div class="form-title text-center">欢迎光临</div>
+            <form action="UserLogin" method="post" onsubmit="return login_validate()">
+                <label for="login_phone_number" class="text-center">手机号码</label>
+                <input class="form-input" type="text" id="login_phone_number" name="login_phone_number"
+                       maxlength="11" required>
+                <label for="login_user_password" class="text-center">密码</label>
+                <input class="form-input" type="password" id="login_user_password" name="login_user_password"
+                       maxlength="16" required>
+                <button type="submit" class="login_btn">登录</button>
             </form>
+            <div class="alert alert-warning" id="login_message_text" style="display:none;"></div>
+        </div>
+    </div>
+    <div class="sub-cont">
+        <div class="img">
+            <div class="img__text m--up">
+                <div class="h3 text-center">第一次来么?</div>
+                <div class="text-center" style="font-size: 13px">来注册发现更多的快乐吧!</div>
+            </div>
+            <div class="img__text m--in">
+                <div class="h3 text-center">已经有账号?</div>
+                <div class="text-center" style="font-size: 13px">如果已有账号了，请直接登录!</div>
+            </div>
+            <div class="img__btn">
+                <span class="m--up">前往注册</span>
+                <span class="m--in">前往登录</span>
+            </div>
+        </div>
+        <div class="form sign-up">
+            <div class="vcenter">
+                <div class="form-title text-center">注册新账号</div>
+                <form action="UserRegister" method="post" onsubmit="return register_validate()">
+                    <label for="register_phone_number" class="text-center">手机号码</label>
+                    <input class="form-input" type="text" id="register_phone_number" name="register_phone_number"
+                           maxlength="11" required>
+                    <label for="register_username" class="text-center">用户名</label>
+                    <input class="form-input" type="text" id="register_username" name="register_username"
+                           maxlength="20" required>
+                    <label for="register_user_password" class="text-center">密码</label>
+                    <input class="form-input" type="password" id="register_user_password" name="register_user_password"
+                           maxlength="20" required>
+                    <label for="register_user_password_confirm" class="text-center">确认密码</label>
+                    <input class="form-input" type="password" id="register_user_password_confirm"
+                           maxlength="20" required>
+                    <button type="submit" class="register_btn">注册</button>
+                </form>
+                <div class="alert alert-warning" id="register_message_text" style="display:none;"></div>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="js/bootstrap.min.js"></script>
+<c:import url="common_js.jsp"/>
+<script type="text/javascript" src="js/login.js"></script>
 </body>
 </html>

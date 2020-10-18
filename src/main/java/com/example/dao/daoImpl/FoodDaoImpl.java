@@ -16,7 +16,7 @@ public class FoodDaoImpl implements FoodDao {
         Food food = null;
         try {
             Connection connection = JdbcUtil.getConnection();
-            String sql = "select * from t_food where foodID = ?";
+            String sql = "select * from t_food where f_id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
 
             ps.setString(1,foodID);

@@ -7,12 +7,12 @@ import com.example.dao.UserDao;
 import com.example.pojo.User;
 import sun.misc.BASE64Encoder;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
-public class UserDaoImpl<Static> implements UserDao {
+public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUser(String phoneNumber) throws SystemException {
@@ -182,9 +182,8 @@ public class UserDaoImpl<Static> implements UserDao {
             MessageDigest md5=MessageDigest.getInstance("MD5");
             BASE64Encoder base64en = new BASE64Encoder();
             //加密后的字符串
-            String newstr=base64en.encode(md5.digest(str.getBytes("utf-8")));
-            return newstr;
-        }catch(NoSuchAlgorithmException | UnsupportedEncodingException e){
+            return base64en.encode(md5.digest(str.getBytes(StandardCharsets.UTF_8)));
+        }catch(NoSuchAlgorithmException e){
             throw new SystemException(e.getMessage());
         }
     }

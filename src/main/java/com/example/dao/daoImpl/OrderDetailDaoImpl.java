@@ -18,7 +18,7 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
         ResultSet rs = null;
         try{
             Connection connection = JdbcUtil.getConnection();
-            String sql = "select * from t_order_detail where o_id = ?";
+            String sql = "select * from t_order_detail where o_id = '"+orderID +"';";
 
             statement = connection.createStatement();
             rs = statement.executeQuery(sql);

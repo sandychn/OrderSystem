@@ -44,6 +44,7 @@ public class PlaceOrder extends HttpServlet {
                 order.setNumber(number);
                 order.setStatus(0);
                 order.setStartTime(startTime);
+                order.setUserId(userId);
                 String orderId = orderDao.addOrder(order);
                 if("".equals(orderId)){
                     resultMessage = "下单失败";

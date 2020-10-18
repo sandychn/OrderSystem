@@ -5,8 +5,11 @@ import com.example.common.Status;
 import com.example.common.SystemException;
 import com.example.dao.OrderDao;
 import com.example.pojo.Order;
+import com.example.pojo.OrderDetail;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
     @Override
@@ -28,6 +31,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setFinishTime(rs.getLong("o_finish_time"));
                 order.setNumber(rs.getInt("o_table_number"));
                 order.setStatus(rs.getInt("o_status"));
+                order.setUserId(rs.getString("u_id"));
             }
 
         }catch (SQLException e){
@@ -52,9 +56,9 @@ public class OrderDaoImpl implements OrderDao {
                 return null;
             }
             String orderId = getOrderId();
-            sql = "insert into t_order(o_id,o_start_time,o_finish_time,o_table_number,o_status) " +
+            sql = "insert into t_order(o_id,o_start_time,o_finish_time,o_table_number,o_status,u_id) " +
                     "values('" + orderId + "','" + order.getStartTime() + "','" + order.getFinishTime() + "','" +
-                    order.getNumber() + "'," + order.getStatus() + ")";
+                    order.getNumber() + "'," + order.getStatus() + order.getUserId() +")";
             statement = connection.createStatement();
             int resultNum = statement.executeUpdate(sql);
 
@@ -147,8 +151,8 @@ public class OrderDaoImpl implements OrderDao {
             }
             Connection connection = JdbcUtil.getConnection();
             statement = connection.createStatement();
-            String sql = "update t_order set o_status='1'"+
-                    " where o_id='"+orderId+";";
+
+            String sql = "update t_order set o_status=1 where o_id='" + orderId + "';";
             int resultNum = statement.executeUpdate(sql);
             if(resultNum > 0){
                 return Status.ORDER_UPDATE_SUCCESS;
@@ -160,5 +164,34 @@ public class OrderDaoImpl implements OrderDao {
         }finally {
             JdbcUtil.close(null,statement);
         }
+    }
+
+    @Override
+    public List<Order> getUserAllOrders(String userId) throws SystemException{
+        List<Order> orders = new ArrayList<>();
+        Statement statement = null;
+        ResultSet rs = null;
+        try{
+            Connection connection = JdbcUtil.getConnection();
+            String sql = "select * from t_order where u_id = '"+ userId +"';";
+            statement = connection.createStatement();
+            rs = statement.executeQuery(sql);
+            while(rs.next()){
+                Order order = new Order();
+                order.setOrderID(rs.getString("o_id"));
+                order.setStartTime(rs.getLong("o_start_time"));
+                order.setFinishTime(rs.getLong("o_finish_time"));
+                order.setNumber(rs.getInt("o_table_number"));
+                order.setStatus(rs.getInt("o_status"));
+                order.setUserId(rs.getString("u_id"));
+                orders.add(order);
+            }
+            return orders;
+        }catch (SQLException e){
+            throw new SystemException(e.getMessage());
+        }finally {
+            JdbcUtil.close(rs,statement);
+        }
+
     }
 }

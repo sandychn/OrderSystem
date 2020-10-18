@@ -11,6 +11,7 @@ public class Order implements Serializable {
     private long finishTime; //完成时间戳
     private int number;   //桌号
     private int status;  //订单状态
+    private String userId;  //用户ID
 
     @Override
     public String toString() {
@@ -61,5 +62,13 @@ public class Order implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

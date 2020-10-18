@@ -12,13 +12,15 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order getOrder(String orderID) throws SystemException {
         Order order = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try{
             Connection connection = JdbcUtil.getConnection();
             String sql = "select * from t_order where o_id = ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
 
             ps.setString(1,orderID);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if(rs.next()){
                 order = new Order();
                 order.setOrderID(rs.getString("o_id"));
@@ -27,52 +29,59 @@ public class OrderDaoImpl implements OrderDao {
                 order.setNumber(rs.getInt("o_table_number"));
                 order.setStatus(rs.getInt("o_status"));
             }
-            JdbcUtil.close(rs,ps);
+
         }catch (SQLException e){
             throw new SystemException(e.getMessage());
+        }finally {
+            JdbcUtil.close(rs,ps);
         }
         return order;
     }
     @Override
-    public Status addOrder(Order order) throws SystemException {
+    public String addOrder(Order order) throws SystemException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Statement statement = null;
         try {
             Connection connection = JdbcUtil.getConnection();
             String sql = "select * from t_order where o_id = ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setString(1, order.getOrderID());
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if(rs.next()){
-                JdbcUtil.close(rs,ps);
-                return Status.ORDER_EXISTS;
+                return null;
             }
-
+            String orderId = getOrderId();
             sql = "insert into t_order(o_id,o_start_time,o_finish_time,o_table_number,o_status) " +
-                    "values('" + order.getOrderID() + "','" + order.getStartTime() + "','" + order.getFinishTime() + "','" +
+                    "values('" + orderId + "','" + order.getStartTime() + "','" + order.getFinishTime() + "','" +
                     order.getNumber() + "'," + order.getStatus() + ")";
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             int resultNum = statement.executeUpdate(sql);
-            JdbcUtil.close(null, statement);
+
             if (resultNum > 0) {
-                return Status.ORDER_ADD_SUCCESS;
+                return orderId;
             } else {
-                return Status.ORDER_ADD_FAIL;
+                return null;
             }
         }catch (SQLException e){
-                throw new SystemException(e.getMessage());
+            throw new SystemException(e.getMessage());
+        }finally {
+            JdbcUtil.close(rs,ps);
+            JdbcUtil.close(null, statement);
         }
     }
     @Override
     public Status update(Order order) throws SystemException {
+        Statement statement = null;
         try {
             if(!isExist(order.getOrderID())){
                 return Status.ORDER_NOT_EXISTS;
             }
             Connection connection = JdbcUtil.getConnection();
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             String sql = "update t_order set o_table_number ='"+ order.getNumber() +"',o_status='"+ order.getStatus() +
                     " where o_id='"+order.getOrderID()+";";
             int resultNum = statement.executeUpdate(sql);
-            JdbcUtil.close(null,statement);
             if(resultNum > 0){
                 return Status.ORDER_UPDATE_SUCCESS;
             }else{
@@ -80,45 +89,76 @@ public class OrderDaoImpl implements OrderDao {
             }
         }catch (SQLException e){
             throw new SystemException(e.getMessage());
+        }finally {
+            JdbcUtil.close(null,statement);
         }
     }
 
 
     private String getOrderId() throws SystemException{
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try{
             Connection connection = JdbcUtil.getConnection();
             String sql =  "select getOrderId(?);";
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setString(1,"seq_order_id");
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if(rs.next()){
                 return rs.getString(1);
             }
-            JdbcUtil.close(rs,ps);
         }catch (SQLException e){
             throw new SystemException(e.getMessage());
+        }finally {
+            JdbcUtil.close(rs,ps);
         }
         return null;
     }
 
     @Override
     public boolean isExist(String orderID) throws SystemException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try{
             Connection connection = JdbcUtil.getConnection();
             String sql = "select * from t_order where o_id= ?";
 
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setString(1,orderID);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if(rs.next()){
-                JdbcUtil.close(rs,ps);
                 return true;
             }else{
-                JdbcUtil.close(rs,ps);
                 return false;  //订单不存在
             }
-        }catch (SQLException | SystemException e){
+        }catch (SQLException e){
             throw new SystemException(e.getMessage());
+        }finally {
+            JdbcUtil.close(rs,ps);
+        }
+    }
+
+    @Override
+    public Status updateStatus(String orderId) throws SystemException{
+        Statement statement = null;
+        try {
+            if(!isExist(orderId)){
+                return Status.ORDER_NOT_EXISTS;
+            }
+            Connection connection = JdbcUtil.getConnection();
+            statement = connection.createStatement();
+            String sql = "update t_order set o_status='1'"+
+                    " where o_id='"+orderId+";";
+            int resultNum = statement.executeUpdate(sql);
+            if(resultNum > 0){
+                return Status.ORDER_UPDATE_SUCCESS;
+            }else{
+                return Status.ORDER_UPDATE_FAIL;
+            }
+        }catch (SQLException e){
+            throw new SystemException(e.getMessage());
+        }finally {
+            JdbcUtil.close(null,statement);
         }
     }
 }

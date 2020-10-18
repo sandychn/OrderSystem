@@ -14,14 +14,14 @@ import java.io.IOException;
 
 @WebServlet("/MyProfile")
 public class MyProfile extends HttpServlet {
+    private final UserDao userDao = new UserDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String loginUserPhoneNumber = (String)req.getSession().getAttribute("login_user_phone_number");
         if (loginUserPhoneNumber != null) {
-            UserDao dao = new UserDaoImpl();
             try {
-                User user = dao.getUser(loginUserPhoneNumber);
+                User user = userDao.getUser(loginUserPhoneNumber);
                 req.setAttribute("login_user_username", user.getUserName());
                 req.setAttribute("login_user_balance", String.format("%.2f", user.getBalance()));
             } catch (SystemException e) {

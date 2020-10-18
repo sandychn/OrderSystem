@@ -10,10 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/UserLogin")
 public class UserLogin extends HttpServlet {
+    private final UserDao userDao = new UserDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,19 +27,19 @@ public class UserLogin extends HttpServlet {
         String phoneNumber = req.getParameter("login_phone_number");
         String password = req.getParameter("login_user_password");
 
-        UserDao dao = new UserDaoImpl();
-
         String resultMessage;
 
         try {
-            User user = dao.getUser(phoneNumber);
+            User user = userDao.getUser(phoneNumber);
             if (user == null) {
                 resultMessage = "输入的用户不存在";
             } else {
-                boolean isPasswordCorrect = dao.isTruePassword(phoneNumber, password);
+                boolean isPasswordCorrect = userDao.isTruePassword(phoneNumber, password);
                 if (isPasswordCorrect) {
                     resultMessage = phoneNumber + " 用户登录成功";
-                    req.getSession().setAttribute("login_user_phone_number", phoneNumber);
+                    HttpSession session = req.getSession();
+                    session.setAttribute("login_user_phone_number", phoneNumber);
+                    session.setAttribute("login_user_id", user.getUserID());
                 } else {
                     resultMessage = "密码不正确或用户名不正确，请重试";
                 }

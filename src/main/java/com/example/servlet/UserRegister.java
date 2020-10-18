@@ -15,6 +15,7 @@ import java.io.IOException;
 
 @WebServlet("/UserRegister")
 public class UserRegister extends HttpServlet {
+    private final UserDao userDao = new UserDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,7 +28,6 @@ public class UserRegister extends HttpServlet {
         String username = req.getParameter("register_username");
         String password = req.getParameter("register_user_password");
 
-        UserDao dao = new UserDaoImpl();
         User user = new User();
 
         // user id is set by UserDao.addUser
@@ -40,7 +40,7 @@ public class UserRegister extends HttpServlet {
         String resultMessage;
 
         try {
-            Status status = dao.addUser(user);
+            Status status = userDao.addUser(user);
             switch (status) {
                 case USER_ADD_SUCCESS:
                     resultMessage = "注册成功";

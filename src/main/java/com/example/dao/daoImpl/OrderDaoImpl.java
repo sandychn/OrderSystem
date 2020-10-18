@@ -100,7 +100,9 @@ public class OrderDaoImpl implements OrderDao {
         }
         return null;
     }
-    private boolean isExist(String orderID) throws SystemException {
+
+    @Override
+    public boolean isExist(String orderID) throws SystemException {
         try{
             Connection connection = JdbcUtil.getConnection();
             String sql = "select * from t_order where o_id= ?";

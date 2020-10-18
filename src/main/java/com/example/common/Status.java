@@ -56,4 +56,12 @@ public enum Status {
     KIND_UPDATE_FAIL,    //种类修改失败
     KIND_DELETE_SUCCESS, //种类删除成功
     KIND_DELETE_FAIL,    //种类删除失败
+
+    COOKIE_EXISTS,         //cookie记录已存在
+    COOKIE_NOT_EXISTS,     //cookie记录不存在
+    COOKIE_ADD_SUCCESS,    //cookie记录添加成功
+    COOKIE_ADD_FAIL,       //cookie记录添加失败
+    COOKIE_DELETE_SUCCESS, //cookie记录删除成功
+    COOKIE_DELETE_FAIL,    //cookie记录删除失败
+
 }

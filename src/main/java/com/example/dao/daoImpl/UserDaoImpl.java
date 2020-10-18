@@ -7,7 +7,7 @@ import com.example.dao.UserDao;
 import com.example.pojo.User;
 import sun.misc.BASE64Encoder;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -114,7 +114,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
     @Override
-    public boolean isTurePassword(String phoneNumber,String password) throws SystemException{
+    public boolean isTruePassword(String phoneNumber,String password) throws SystemException{
         try{
             Connection connection = JdbcUtil.getConnection();
             String sql = "select u_password from t_user where u_phone_number = ?";
@@ -137,25 +137,8 @@ public class UserDaoImpl implements UserDao {
         }
         return true;
     }
-
-    private static String getUserId() throws SystemException{  //获取用户ID
-        try{
-            Connection connection = JdbcUtil.getConnection();
-            String sql =  "select getUserId(?);";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1,"seq_user_id");
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                return rs.getString(1);
-            }
-            JdbcUtil.close(rs,ps);
-        }catch (SQLException e){
-            throw new SystemException(e.getMessage());
-        }
-        return null;
-    }
-
-    private static boolean isExist(String userId) throws SystemException{
+    @Override
+    public boolean isExist(String userId) throws SystemException{
         try {
             Connection connection = JdbcUtil.getConnection();
             String sql = "select * from t_user where u_id= ?";
@@ -176,14 +159,31 @@ public class UserDaoImpl implements UserDao {
 
     }
 
+    private String getUserId() throws SystemException{  //获取用户ID
+        try{
+            Connection connection = JdbcUtil.getConnection();
+            String sql =  "select getUserId(?);";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1,"seq_user_id");
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+            JdbcUtil.close(rs,ps);
+        }catch (SQLException e){
+            throw new SystemException(e.getMessage());
+        }
+        return null;
+    }
+
+
     private static String EncoderByMd5(String str) throws SystemException{  //密码加密
         try{
             MessageDigest md5=MessageDigest.getInstance("MD5");
             BASE64Encoder base64en = new BASE64Encoder();
             //加密后的字符串
-            String newstr=base64en.encode(md5.digest(str.getBytes("utf-8")));
-            return newstr;
-        }catch(NoSuchAlgorithmException | UnsupportedEncodingException e){
+            return base64en.encode(md5.digest(str.getBytes(StandardCharsets.UTF_8)));
+        }catch(NoSuchAlgorithmException e){
             throw new SystemException(e.getMessage());
         }
     }

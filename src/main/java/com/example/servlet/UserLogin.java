@@ -34,7 +34,7 @@ public class UserLogin extends HttpServlet {
             if (user == null) {
                 resultMessage = "输入的用户不存在";
             } else {
-                boolean isPasswordCorrect = dao.isTurePassword(phoneNumber, password);
+                boolean isPasswordCorrect = dao.isTruePassword(phoneNumber, password);
                 if (isPasswordCorrect) {
                     resultMessage = phoneNumber + " 用户登录成功";
                     req.getSession().setAttribute("login_user_phone_number", phoneNumber);

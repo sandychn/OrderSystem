@@ -44,6 +44,7 @@ function item_modify_minus_in_cart(userId, foodId) {
     let foodPriceTotalSpan = $("#food-price-total-" + foodId)[0];
     foodPriceTotalSpan.innerText = (parseFloat(foodPriceSingleSpan.innerText) * foodCount).toFixed(2);
     item_modify(userId, foodId, foodCount);
+    update_total_price();
 }
 
 function item_modify_plus_in_cart(userId, foodId) {
@@ -55,6 +56,7 @@ function item_modify_plus_in_cart(userId, foodId) {
     let foodPriceTotalSpan = $("#food-price-total-" + foodId)[0];
     foodPriceTotalSpan.innerText = (parseFloat(foodPriceSingleSpan.innerText) * foodCount).toFixed(2);
     item_modify(userId, foodId, foodCount);
+    update_total_price();
 }
 
 function item_modify_zero_in_cart(userId, foodId) {
@@ -62,6 +64,7 @@ function item_modify_zero_in_cart(userId, foodId) {
         $("#food-table-row-" + foodId)[0].remove();
         item_modify(userId, foodId, 0);
         check_no_food_in_cart();
+        update_total_price();
     }
 }
 
@@ -71,5 +74,14 @@ function check_no_food_in_cart() {
         if (foodTable.length !== 0) foodTable[0].remove();
         $(".no-food-in-cart-alert")[0].style = "";
     }
+}
 
+function update_total_price(delta) {
+    let food_price_total_spans = $(".food-price-total");
+    let total = 0;
+    for (let i = 0; i < food_price_total_spans.length; i++) {
+        total += parseFloat(food_price_total_spans[i].innerText);
+    }
+    let total_price_span = $(".order-total-price")[0];
+    total_price_span.innerText = total.toFixed(2);
 }

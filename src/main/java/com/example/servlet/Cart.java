@@ -26,10 +26,15 @@ public class Cart extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userId = (String)req.getSession().getAttribute("login_user_id");
+        if (userId == null) {
+            resp.sendRedirect("login.jsp");
+            return;
+        }
 
         try {
             List<OrderCart> orderCarts = orderCartDao.getOrderCarts(userId);
             StringBuilder cartTableHtml = new StringBuilder();
+            double total = 0;
             cartTableHtml.append("<table class=\"table\">\n" +
                     "<thead class=\"thead-light\">\n" +
                     "<th scope=\"col\">菜品名</th>\n" +
@@ -62,19 +67,23 @@ public class Cart extends HttpServlet {
                         food.getFoodID()));
                 cartTableHtml.append("</td>");
                 cartTableHtml.append(String.format(
-                        "<td class=\"align-middle\"><span id=\"food-price-total-%s\">%.2f</span></td>",
+                        "<td class=\"align-middle\"><span class=\"food-price-total\" id=\"food-price-total-%s\">%.2f</span></td>",
                         food.getFoodID(),
                         food.getPrice() * orderCart.getFoodCount()));
                 cartTableHtml.append(String.format(
                         "<td class=\"align-middle\">" +
-                                "<button class=\"btn-sm btn-primary\" onclick=\"item_modify_zero_in_cart('%s','%s')\">删除</button>" +
+                                "<button class=\"btn-sm btn-secondary\" onclick=\"item_modify_zero_in_cart('%s','%s')\">删除</button>" +
                                 "</td>",
                         userId,
                         food.getFoodID()));
                 cartTableHtml.append("</tr>");
+                total += food.getPrice() * orderCart.getFoodCount();
             }
             cartTableHtml.append("</tbody></table>");
-
+            cartTableHtml.append(String.format(
+                    "<div class=\"h3\" style=\"margin: 70px 0 30px 0\">总计&nbsp;&nbsp;<b>¥</b>&nbsp;" +
+                            "<span class=\"order-total-price\">%.2f</span></div>",
+                    total));
             req.setAttribute("cartTableHtml", cartTableHtml);
         } catch (SystemException e) {
             req.setAttribute("cartTableHtml", "<div class=\"alert alert-primary\">error</div>");

@@ -109,6 +109,22 @@ public class OrderCartDaoImpl implements OrderCartDao {
     }
 
     @Override
+    public Status deleteByUserID(String userID) throws SystemException {
+        Connection connection = JdbcUtil.getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("delete from t_order_cart where u_id = ?");
+            ps.setString(1, userID);
+            int affected = ps.executeUpdate();
+            return Status.ORDERCART_DELETE_SUCCESS;
+        } catch (SQLException e) {
+            throw new SystemException(e.getMessage());
+        } finally {
+            JdbcUtil.close(null, ps);
+        }
+    }
+
+    @Override
     public Status delete(String userID, String foodID) throws SystemException {
         Connection connection = JdbcUtil.getConnection();
         PreparedStatement ps = null;
@@ -117,6 +133,8 @@ public class OrderCartDaoImpl implements OrderCartDao {
                 return Status.ORDERCART_NOT_EXISTS;
             }
             ps = connection.prepareStatement("delete from t_order_cart where u_id = ? and f_id = ?");
+            ps.setString(1, userID);
+            ps.setString(2, foodID);
             int affected = ps.executeUpdate();
             return affected > 0 ? Status.ORDERCART_DELETE_SUCCESS : Status.ORDERCART_DELETE_FAIL;
         } catch (SQLException e) {

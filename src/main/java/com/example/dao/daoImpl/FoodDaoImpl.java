@@ -157,6 +157,31 @@ public class FoodDaoImpl implements FoodDao {
         }
     }
 
+    @Override
+    public List<Food> getFoodsByKind(int kind) throws SystemException {
+        try{
+            Connection connection = JdbcUtil.getConnection();
+            String sql = "select f_id,f_name,f_image_url,f_description,f_price,k_id from t_food where k_id="+kind;
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            List<Food> list = new ArrayList<>();
+            while(rs.next()){
+                Food food = new Food();
+                food.setFoodID(rs.getString("f_id"));
+                food.setFoodName(rs.getString("f_name"));
+                food.setImageUrl(rs.getString("f_image_url"));
+                food.setDescription(rs.getString("f_description"));
+                food.setPrice(rs.getDouble("f_price"));
+                food.setKind(rs.getInt("k_id"));
+                list.add(food);
+            }
+            JdbcUtil.close(rs,statement);
+            return list;
+        }catch (SQLException e){
+            throw new SystemException(e.getMessage());
+        }
+    }
+
     private String getFoodID() throws SystemException{
         try{
             Connection connection = JdbcUtil.getConnection();

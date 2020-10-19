@@ -6,7 +6,7 @@ public class Kind implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int kindID; //餐品总类ID
-    private String varchar; //餐品种类名称
+    private String kindName; //餐品种类名称
 
     public int getKindID() {
         return kindID;
@@ -16,11 +16,11 @@ public class Kind implements Serializable {
         this.kindID = kindID;
     }
 
-    public String getVarchar() {
-        return varchar;
+    public String getKindName() {
+        return kindName;
     }
 
-    public void setVarchar(String varchar) {
-        this.varchar = varchar;
+    public void setKindName(String kindName) {
+        this.kindName = kindName;
     }
 }

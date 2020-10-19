@@ -13,4 +13,5 @@ public interface FoodDao {
     Status delete(String foodID) throws SystemException;  //删除一个菜品
     boolean isExist(String foodID) throws SystemException; //判断一个菜品是否存在
     List<Food> getAllFood() throws SystemException;       //获取所有菜品信息
+    List<Food> getFoodsByKind(int kind) throws SystemException;       //获取某一类下的所有菜品信息
 }

@@ -58,7 +58,7 @@ public class OrderDaoImpl implements OrderDao {
             String orderId = getOrderId();
             sql = "insert into t_order(o_id,o_start_time,o_finish_time,o_table_number,o_status,u_id) " +
                     "values('" + orderId + "','" + order.getStartTime() + "','" + order.getFinishTime() + "','" +
-                    order.getNumber() + "'," + order.getStatus() + order.getUserId() +")";
+                    order.getNumber() + "'," + order.getStatus() + ",'" + order.getUserId() +"')";
             statement = connection.createStatement();
             int resultNum = statement.executeUpdate(sql);
 
@@ -167,13 +167,13 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getUserAllOrders(String userId) throws SystemException{
+    public List<Order> getUserAllOrdersSortedByTime(String userId) throws SystemException{
         List<Order> orders = new ArrayList<>();
         Statement statement = null;
         ResultSet rs = null;
         try{
             Connection connection = JdbcUtil.getConnection();
-            String sql = "select * from t_order where u_id = '"+ userId +"';";
+            String sql = "select * from t_order where u_id = '"+ userId +"' order by o_start_time DESC";
             statement = connection.createStatement();
             rs = statement.executeQuery(sql);
             while(rs.next()){

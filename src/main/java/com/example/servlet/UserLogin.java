@@ -33,24 +33,28 @@ public class UserLogin extends HttpServlet {
             User user = userDao.getUser(phoneNumber);
             if (user == null) {
                 resultMessage = "输入的用户不存在";
+                req.setAttribute("result_message", resultMessage);
+                req.getRequestDispatcher("result.jsp").forward(req, resp);
             } else {
                 boolean isPasswordCorrect = userDao.isTruePassword(phoneNumber, password);
                 if (isPasswordCorrect) {
-                    resultMessage = phoneNumber + " 用户登录成功";
                     HttpSession session = req.getSession();
                     session.setAttribute("login_user_phone_number", phoneNumber);
                     session.setAttribute("login_user_id", user.getUserID());
+                    req.getRequestDispatcher("Menu").forward(req, resp);
                 } else {
                     resultMessage = "密码不正确或用户名不正确，请重试";
+                    req.setAttribute("result_message", resultMessage);
+                    req.getRequestDispatcher("result.jsp").forward(req, resp);
                 }
             }
         } catch (SystemException e) {
             resultMessage = "登录时发生错误，请重试";
             e.printStackTrace();
-        }
 
-        req.setAttribute("result_message", resultMessage);
-        req.getRequestDispatcher("result.jsp").forward(req, resp);
+            req.setAttribute("result_message", resultMessage);
+            req.getRequestDispatcher("result.jsp").forward(req, resp);
+        }
     }
 
 }

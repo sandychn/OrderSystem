@@ -2,12 +2,14 @@ package com.example.servlet;
 
 import com.example.common.SystemException;
 import com.example.dao.FoodDao;
+import com.example.dao.KindDao;
 import com.example.dao.OrderCartDao;
 import com.example.dao.daoImpl.FoodDaoImpl;
+import com.example.dao.daoImpl.KindDaoImpl;
 import com.example.dao.daoImpl.OrderCartDaoImpl;
 import com.example.pojo.Food;
+import com.example.pojo.Kind;
 import com.example.pojo.OrderCart;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,14 +25,40 @@ import java.util.Map;
 @WebServlet("/Menu")
 public class Menu extends HttpServlet {
     private final FoodDao foodDao = new FoodDaoImpl();
+    private final KindDao kindDao = new KindDaoImpl();
     private final OrderCartDao orderCartDao = new OrderCartDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        String loginUserID = (String)session.getAttribute("login_user_id");
+        if (loginUserID == null) {
+            resp.sendRedirect("login.jsp");
+            return;
+        }
+
         try {
-            HttpSession session = req.getSession();
-            String loginUserID = (String)session.getAttribute("login_user_id");
-            List<Food> foods = foodDao.getAllFood();
+            List<Kind> kinds = kindDao.getAllKind();
+            StringBuilder kindHTML = new StringBuilder();
+            for (Kind kind : kinds) {
+                kindHTML.append("<li class=\"nav-item\">");
+                kindHTML.append(String.format("<a class=\"nav-link\" href=\"Menu?kind_id=%d\">%s</a>", kind.getKindID(), kind.getKindName()));
+                kindHTML.append("</li>");
+            }
+            req.setAttribute("kind_html", kindHTML);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            req.setAttribute("kind_html", "error");
+        }
+
+        String foodKind = (String)req.getParameter("kind_id");
+        try {
+            List<Food> foods = null;
+            if (foodKind == null) {
+                foods = foodDao.getAllFood();
+            } else {
+                foods = foodDao.getFoodsByKind(Integer.parseInt(foodKind));
+            }
             List<OrderCart> orderCarts = orderCartDao.getOrderCarts(loginUserID);
             Map<String, OrderCart> foodIdToOrderCartMap = new HashMap<>();
             for (OrderCart orderCart : orderCarts) {

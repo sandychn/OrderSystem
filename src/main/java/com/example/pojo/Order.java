@@ -16,12 +16,13 @@ public class Order implements Serializable {
     @Override
     public String toString() {
         return "Order{" +
-                "orderID=" + orderID +
-                ",startTime=" + startTime + "/" +
-                ",finishTime=" + finishTime + "/" +
-                ",number=" + number + "/" +
-                ",status=" + status +
-                "}";
+                "orderID='" + orderID + '\'' +
+                ", startTime=" + startTime +
+                ", finishTime=" + finishTime +
+                ", number=" + number +
+                ", status=" + status +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 
     public String getOrderID() {

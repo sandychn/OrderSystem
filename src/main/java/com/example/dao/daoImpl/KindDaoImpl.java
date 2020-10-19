@@ -4,7 +4,6 @@ import com.example.common.JdbcUtil;
 import com.example.common.Status;
 import com.example.common.SystemException;
 import com.example.dao.KindDao;
-import com.example.pojo.Food;
 import com.example.pojo.Kind;
 
 import java.sql.*;
@@ -24,7 +23,7 @@ public class KindDaoImpl implements KindDao {
             if(rs.next()){
                 kind =new Kind();
                 kind.setKindID(rs.getInt("k_id"));
-                kind.setVarchar(rs.getString("k_type"));
+                kind.setKindName(rs.getString("k_type"));
             }
             JdbcUtil.close(rs,ps);
             return kind;
@@ -44,7 +43,7 @@ public class KindDaoImpl implements KindDao {
             while(rs.next()){
                 Kind kind = new Kind();
                 kind.setKindID(rs.getInt("k_id"));
-                kind.setVarchar(rs.getString("k_type"));
+                kind.setKindName(rs.getString("k_type"));
                 list.add(kind);
             }
             JdbcUtil.close(rs,statement);
@@ -69,7 +68,7 @@ public class KindDaoImpl implements KindDao {
             }
 
             sql = "insert into t_kind(k_id,k_type) " +
-                    "values('"+ kind.getKindID() +"',"+ kind.getVarchar() +")";
+                    "values('"+ kind.getKindID() +"',"+ kind.getKindName() +")";
             Statement statement = connection.createStatement();
             int resultNum = statement.executeUpdate(sql);
             JdbcUtil.close(null,statement);
@@ -90,7 +89,7 @@ public class KindDaoImpl implements KindDao {
                 return Status.KIND_NOT_EXISTS;
             }
             Connection connection = JdbcUtil.getConnection();
-            String sql = "update t_kind set k_type ='"+ kind.getVarchar()  +
+            String sql = "update t_kind set k_type ='"+ kind.getKindName()  +
                     " where k_id="+ kind.getKindID()+"'";
             Statement statement = connection.createStatement();
             int resultNum = statement.executeUpdate(sql);

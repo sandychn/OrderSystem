@@ -13,6 +13,7 @@ import com.example.pojo.OrderCart;
 import com.example.pojo.OrderDetail;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class PlaceOrder extends HttpServlet {
+@WebServlet("/CreateOrder")
+public class CreateOrder extends HttpServlet {
     private final OrderCartDao orderCartDao = new OrderCartDaoImpl();
     private final OrderDao orderDao = new OrderDaoImpl();
     private final OrderDetailDao detailDao = new OrderDetailDaoImpl();
@@ -34,7 +36,7 @@ public class PlaceOrder extends HttpServlet {
         String resultMessage;
         try{
             List<OrderCart> orderCartList = orderCartDao.getOrderCarts(userId);
-            if(orderCartList.size() == 0){
+            if(orderCartList.isEmpty()){
                 resultMessage = "购物车为空，未选择餐品";
             }else{
                 String time = sd.format(new Date());
@@ -46,7 +48,7 @@ public class PlaceOrder extends HttpServlet {
                 order.setStartTime(startTime);
                 order.setUserId(userId);
                 String orderId = orderDao.addOrder(order);
-                if("".equals(orderId)){
+                if(orderId == null){
                     resultMessage = "下单失败";
                 }else{
                     for(OrderCart orderCart : orderCartList){
@@ -60,7 +62,11 @@ public class PlaceOrder extends HttpServlet {
                             break;
                         }
                     }
-                    resultMessage = "下单成功";
+                    if (orderCartDao.deleteByUserID(userId) == Status.ORDERCART_DELETE_SUCCESS) {
+                        resultMessage = "下单成功";
+                    } else {
+                        resultMessage = "下单失败";
+                    }
                 }
             }
         }catch(SystemException | ParseException e){
@@ -68,12 +74,11 @@ public class PlaceOrder extends HttpServlet {
             e.printStackTrace();
         }
         req.setAttribute("result_message", resultMessage);
-
-
+        req.getRequestDispatcher("result.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+        doGet(req, resp);
     }
 }

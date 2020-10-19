@@ -37,6 +37,7 @@
                    role="button" aria-haspopup="true" aria-expanded="false">您好，<%=login_user_phone_number%></a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="MyProfile">个人中心</a>
+                    <a class="dropdown-item" href="OrderRecord">订单记录</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="Logout">登出</a>
                 </div>

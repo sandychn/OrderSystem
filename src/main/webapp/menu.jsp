@@ -18,24 +18,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="nav flex-column" id="menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="home1.html">炒菜</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="home2.html">凉菜</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="home3.html">汤类</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="home4.html">甜品</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="home5.html">酒水</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="home6.html">主食</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="Menu">全部</a></li>
+                        <%=request.getAttribute("kind_html")%>
                     </ul>
                 </div>
             </nav>

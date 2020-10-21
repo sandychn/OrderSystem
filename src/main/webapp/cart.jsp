@@ -4,7 +4,6 @@
 <head>
 	<title>购物车</title>
 	<c:import url="common_css.jsp"/>
-	<link rel="stylesheet" href="css/cart.css"/>
 	<style>
 		.fas {
 			cursor: pointer;

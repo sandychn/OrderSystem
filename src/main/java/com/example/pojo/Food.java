@@ -15,13 +15,13 @@ public class Food implements Serializable {
     @Override
     public String toString() {
         return "Food{" +
-                "foodID=" + foodID +
-                ",foodName=" + foodName + "/" +
-                ",imageUrl=" + imageUrl + "/" +
-                ",description=" + description + "/" +
-                ",price=" + price + "/" +
-                ",kind=" + kind +
-                "}";
+                "foodID='" + foodID + '\'' +
+                ", foodName='" + foodName + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", kind=" + kind +
+                '}';
     }
 
     public String getFoodID() {

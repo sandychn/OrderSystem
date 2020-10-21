@@ -83,8 +83,8 @@ public class OrderDaoImpl implements OrderDao {
             }
             Connection connection = JdbcUtil.getConnection();
             statement = connection.createStatement();
-            String sql = "update t_order set o_table_number ='"+ order.getNumber() +"',o_status='"+ order.getStatus() +
-                    " where o_id='"+order.getOrderID()+";";
+            String sql = "update t_order set o_table_number ='"+ order.getNumber() +"',o_status="+ order.getStatus() +
+                    " where o_id='"+order.getOrderID()+"';";
             int resultNum = statement.executeUpdate(sql);
             if(resultNum > 0){
                 return Status.ORDER_UPDATE_SUCCESS;
@@ -192,6 +192,33 @@ public class OrderDaoImpl implements OrderDao {
         }finally {
             JdbcUtil.close(rs,statement);
         }
+    }
 
+    @Override
+    public List<Order> getAllOrdersSortedByTime() throws SystemException {
+        List<Order> orders = new ArrayList<>();
+        Statement statement = null;
+        ResultSet rs = null;
+        try{
+            Connection connection = JdbcUtil.getConnection();
+            String sql = "select * from t_order order by o_start_time DESC";
+            statement = connection.createStatement();
+            rs = statement.executeQuery(sql);
+            while(rs.next()){
+                Order order = new Order();
+                order.setOrderID(rs.getString("o_id"));
+                order.setStartTime(rs.getLong("o_start_time"));
+                order.setFinishTime(rs.getLong("o_finish_time"));
+                order.setNumber(rs.getInt("o_table_number"));
+                order.setStatus(rs.getInt("o_status"));
+                order.setUserId(rs.getString("u_id"));
+                orders.add(order);
+            }
+            return orders;
+        }catch (SQLException e){
+            throw new SystemException(e.getMessage());
+        }finally {
+            JdbcUtil.close(rs,statement);
+        }
     }
 }

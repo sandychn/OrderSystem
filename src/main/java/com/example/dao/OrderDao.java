@@ -13,4 +13,5 @@ public interface OrderDao {
     boolean isExist(String orderID) throws SystemException; //判断订单是否存在
     Status updateStatus(String orderId) throws SystemException; //修改订单状态
     List<Order> getUserAllOrdersSortedByTime(String userId) throws SystemException;  //获取用户的所有订单
+    List<Order> getAllOrdersSortedByTime() throws SystemException;  //获取所有订单
 }

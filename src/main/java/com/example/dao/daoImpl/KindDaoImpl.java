@@ -105,7 +105,7 @@ public class KindDaoImpl implements KindDao {
     }
 
     @Override
-    public Status delect(int kindID) throws SystemException {
+    public Status delete(int kindID) throws SystemException {
         try{
             if(!isExist(kindID)){
                 return Status.KIND_NOT_EXISTS;

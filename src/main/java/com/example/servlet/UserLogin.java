@@ -41,7 +41,18 @@ public class UserLogin extends HttpServlet {
                     HttpSession session = req.getSession();
                     session.setAttribute("login_user_phone_number", phoneNumber);
                     session.setAttribute("login_user_id", user.getUserID());
-                    req.getRequestDispatcher("Menu").forward(req, resp);
+                    session.setAttribute("login_user_identity", user.getIdentity());
+
+                    String pageTo;
+                    if (user.getIdentity() == 0) {
+                        pageTo = "Menu";
+                    } else if (user.getIdentity() == 1) {
+                        pageTo = "admin.jsp";
+                    } else {
+                        pageTo = "Menu";
+                    }
+
+                    req.getRequestDispatcher(pageTo).forward(req, resp);
                 } else {
                     resultMessage = "密码不正确或用户名不正确，请重试";
                     req.setAttribute("result_message", resultMessage);

@@ -51,12 +51,17 @@ public class FoodDaoImpl implements FoodDao {
                 return Status.FOOD_EXISTS;
             }
 
-            sql = "insert into t_food(f_id,f_name,f_image_url,f_descripition,f_price) " +
-                    "values('"+ getFoodID() +"','"+ food.getFoodName() +"','"+ food.getImageUrl() +"','" +
-                     food.getDescription() +"',"+ food.getPrice() +")";
-            Statement statement = connection.createStatement();
-            int resultNum = statement.executeUpdate(sql);
-            JdbcUtil.close(null,statement);
+            sql = "insert into t_food(f_id,f_name,f_image_url,f_description,f_price,k_id) values(?,?,?,?,?,?)";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, getFoodID());
+            ps.setString(2, food.getFoodName());
+            ps.setString(3, food.getImageUrl());
+            ps.setString(4, food.getDescription());
+            ps.setDouble(5, food.getPrice());
+            ps.setInt(6, food.getKind());
+
+            int resultNum = ps.executeUpdate();
+            JdbcUtil.close(null,ps);
             if(resultNum > 0){
                 return Status.FOOD_ADD_SUCCESS;
             }else{

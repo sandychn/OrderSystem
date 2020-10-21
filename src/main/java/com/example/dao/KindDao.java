@@ -11,6 +11,6 @@ public interface KindDao {
     List<Kind> getAllKind() throws SystemException;
     Status addKind(Kind kind) throws SystemException;
     Status update(Kind kind) throws SystemException;
-    Status delect(int kindID) throws SystemException;
+    Status delete(int kindID) throws SystemException;
     boolean isExist(int kindID) throws SystemException;
 }

@@ -64,6 +64,8 @@ public class CreateOrder extends HttpServlet {
                     }
                     if (orderCartDao.deleteByUserID(userId) == Status.ORDERCART_DELETE_SUCCESS) {
                         resultMessage = "下单成功";
+                        resp.sendRedirect("ShowOrderDetail?order_id=" + orderId);
+                        return;
                     } else {
                         resultMessage = "下单失败";
                     }
